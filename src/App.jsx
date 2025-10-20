@@ -12,6 +12,8 @@ import {
   Button,
 } from '@mui/material';
 
+import Drawer from './components/Drawer';
+
 import {
   SAVE_SEGMENT,
   DRAWER_OPENING_DIRECTION,
@@ -30,6 +32,10 @@ function App() {
 
         <Button
           onClick={toggleDrawer(true)}
+          style={{
+            margin:"100px",
+          }}
+          variant="outlined"
         >
           {SAVE_SEGMENT}
         </Button>
@@ -40,7 +46,16 @@ function App() {
             onClose={toggleDrawer(false)}
             anchor={`${DRAWER_OPENING_DIRECTION}`}
           >
-            {"test"}
+            <div
+              style={{
+                minWidth:"500px",
+                height:"100%",
+                position:"relative",
+              }}
+            >
+              <Drawer
+              />
+            </div>
           </CommonDrawer>
         }
         

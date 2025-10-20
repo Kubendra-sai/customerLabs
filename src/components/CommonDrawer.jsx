@@ -13,6 +13,9 @@ export const CommonDrawer = ({
             anchor={anchor}
             open={open}
             onClose = {() => onClose()}
+            // style={{
+            //     width:"50%",
+            // }}
         >
             {children}
         </Drawer>
