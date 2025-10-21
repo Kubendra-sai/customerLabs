@@ -11,22 +11,25 @@ const CommonSelect = ({
 
     const [selectedvalue, setSelectedValue] = useState(value)
 
+    const onSelectChange = (e) => {
+        let value = e.target.value
+
+        setSelectedValue(value)
+        
+        let label = options.find(
+            obj => obj.Value === value
+        )?.Label
+        
+        onChange({
+            Label:label,
+            Value:value,
+        })
+    }
+
     return(
         <select 
             value={selectedvalue}
-            onChange={(e)=>{
-                let value = e.target.value
-
-                setSelectedValue(value)
-                let label = options.find(
-                    obj => obj.Value === value
-                )?.Label
-                
-                onChange({
-                    Label:label,
-                    Value:value,
-                })
-            }}
+            onChange={(e)=>onSelectChange(e)}
             style={{
                 width:"300px",
                 padding:"10px",

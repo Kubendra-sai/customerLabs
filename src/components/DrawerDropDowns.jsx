@@ -7,11 +7,30 @@ const DrawerDropDowns = () => {
 
     const [selectedOptions, setSelectedOptions] = useState([])
     const selectedOptionsValue = selectedOptions.map(obj => obj.Value)
+    const [addSchemaOption, setAddSchemaOption] = useState(null)
     const availableOptions = DROPDOWN_LIST.filter(({Label, Value}) => {
         return !(selectedOptionsValue?.indexOf(Value) >= 0)
     })
     // availableOptions = [...availableOptions]
     console.log(selectedOptions,selectedOptionsValue,"selectedOptions",availableOptions)
+
+    const onAddSchemaDropDownChange = (obj) => {
+        if(selectedOptionsValue?.indexOf(obj.Value) >= 0){
+            return
+        }
+        console.log(obj,"obj")
+        // setSelectedOptions((prev) => {
+        //     return [...prev, obj]
+        // })
+        setAddSchemaOption({...obj})
+    }
+    const onAddNewSchema = () =>{
+        setSelectedOptions((prev) => {
+            return [...prev, addSchemaOption]
+        })
+        setAddSchemaOption(null)
+    }
+
     return (
         <div>
             <div
@@ -37,12 +56,7 @@ const DrawerDropDowns = () => {
                     options = {availableOptions}
                     value = {""}
                     onChange = {
-                        (obj) => {
-                            console.log(obj,"obj")
-                            setSelectedOptions((prev) => {
-                                return [...prev, obj]
-                            })
-                        }
+                        (obj) => onAddSchemaDropDownChange(obj)
                     }
                 />
             </div>
@@ -52,7 +66,7 @@ const DrawerDropDowns = () => {
                 }}
             >
                 <Button
-                    onClick={()=>null}
+                    onClick={onAddNewSchema}
                 >
                     {"+ Add new schema"}
                 </Button>
