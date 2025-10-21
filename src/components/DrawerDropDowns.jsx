@@ -1,18 +1,34 @@
 import { Button } from "@mui/material";
-import { DROPDOWN_LIST } from "../constants";
 import CommonSelect from "./CommonSelect"
 import { useState } from "react";
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useDrawerContext } from "../context/DrawerContext";
 
 const DrawerDropDowns = () => {
 
-    const [selectedOptions, setSelectedOptions] = useState([])
-    const selectedOptionsValue = selectedOptions.map(obj => obj.Value)
-    const [addSchemaOption, setAddSchemaOption] = useState(null)
-    const availableOptions = DROPDOWN_LIST.filter(({Label, Value}) => {
-        return !(selectedOptionsValue?.indexOf(Value) >= 0)
-    })
+    // const [selectedOptions, setSelectedOptions] = useState([])
+    // const selectedOptionsValue = selectedOptions.map(obj => obj.Value)
+    // const [addSchemaOption, setAddSchemaOption] = useState(null)
+    // const availableOptions = DROPDOWN_LIST.filter(({Label, Value}) => {
+    //     return !(selectedOptionsValue?.indexOf(Value) >= 0)
+    // })
     // availableOptions = [...availableOptions]
+
+    const {
+        state:{
+            selectedOptions,
+            selectedOptionsValue,
+        },
+        setState:{
+            setSelectedOptions,
+            setAddSchemaOption,
+        },
+        values:{
+            availableOptions,
+            addSchemaOption,
+        }
+    } = useDrawerContext()
+
     console.log(selectedOptions,selectedOptionsValue,"selectedOptions",availableOptions)
 
     const onAddSchemaDropDownChange = (obj) => {
@@ -27,6 +43,7 @@ const DrawerDropDowns = () => {
     }
 
     const onAddNewSchema = () =>{
+        if(!addSchemaOption) return
         setSelectedOptions((prev) => {
             return [...prev, addSchemaOption]
         })
@@ -59,48 +76,50 @@ const DrawerDropDowns = () => {
 
     return (
         <div>
-            <div
-                style={{
-                    border:"1px solid blue",
-                    marginBottom:"10px",
-                }}
-            >
-                {/* <CommonSelect 
-                    options = {DROPDOWN_LIST}
-                    value = {""}
-                /> */}
-                {selectedOptions.map((obj, index)=>{
+            {!!selectedOptions?.length &&
+                <div
+                    style={{
+                        border:"1px solid blue",
+                        marginBottom:"10px",
+                    }}
+                >
+                    {/* <CommonSelect 
+                        options = {DROPDOWN_LIST}
+                        value = {""}
+                    /> */}
+                    {selectedOptions.map((obj, index)=>{
 
-                    let {Label, Value} = obj
-                    let modifiedOptions = [ obj, ...availableOptions?.filter(
-                        (obj) => {
-                            return obj.Value; // && obj.Value !== Value
-                        }
-                    )]
+                        let {Label, Value} = obj
+                        let modifiedOptions = [ obj, ...availableOptions?.filter(
+                            (obj) => {
+                                return obj.Value; // && obj.Value !== Value
+                            }
+                        )]
 
-                    return (
-                        <div
-                            style={{
-                                marginBottom:"10px",
-                                padding:"10px",
-                                display:"flex",
-                                justifyContent:"center",
-                            }}
-                        >
-                            <CommonSelect 
-                                options = {modifiedOptions}
-                                value = {Value}
-                                onChange = {onDropDownListValuesChange(obj, index)}
-                            />
-                            <Button
-                                onClick={onRemoveDropDown(Value)}
+                        return (
+                            <div
+                                style={{
+                                    marginBottom:"10px",
+                                    padding:"10px",
+                                    display:"flex",
+                                    justifyContent:"center",
+                                }}
                             >
-                                <RemoveIcon />
-                            </Button>
-                        </div>
-                    )
-                })}
-            </div>
+                                <CommonSelect 
+                                    options = {modifiedOptions}
+                                    value = {Value}
+                                    onChange = {onDropDownListValuesChange(obj, index)}
+                                />
+                                <Button
+                                    onClick={onRemoveDropDown(Value)}
+                                >
+                                    <RemoveIcon />
+                                </Button>
+                            </div>
+                        )
+                    })}
+                </div>
+            }
             <div
                 style={{
                     marginBottom:"10px",

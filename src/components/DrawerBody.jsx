@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DrawerDropDowns from "./DrawerDropDowns";
+import DrawerContext, {useDrawerContext} from "../context/DrawerContext";
 
 const DrawerBody = ({
 
 }) => {
-    const [segmentName, setSegmentName] = useState("")
 
+    const {
+        state:{
+            segmentName
+        },
+        setState:{
+            setSegmentName,
+        }
+    } = useDrawerContext() //useDrawerContext() //useContext(DrawerContext)
+
+    console.log(segmentName,"segmentName")
     return (<div
         style={{
             height:"auto",
