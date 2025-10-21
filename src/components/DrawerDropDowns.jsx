@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import { DROPDOWN_LIST } from "../constants";
 import CommonSelect from "./CommonSelect"
 import { useState } from "react";
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const DrawerDropDowns = () => {
 
@@ -24,6 +25,7 @@ const DrawerDropDowns = () => {
         // })
         setAddSchemaOption({...obj})
     }
+
     const onAddNewSchema = () =>{
         setSelectedOptions((prev) => {
             return [...prev, addSchemaOption]
@@ -31,25 +33,77 @@ const DrawerDropDowns = () => {
         setAddSchemaOption(null)
     }
 
+    const onDropDownListValuesChange = (obj, index) => {
+        return (object) => {
+            let newList = []
+            // For to retrieve the previous position
+            for(let i=0;i<selectedOptions?.length;i++){
+                if(index === i){
+                    newList.push(object)
+                }else{
+                    newList.push(selectedOptions[i])
+                }
+            }
+            setSelectedOptions(newList)
+        }
+    }
+
+    const onRemoveDropDown = (Value) => () => {
+        console.log(Value,"value")
+        setSelectedOptions(
+            (prev) => [...prev].filter(
+                (obj) => obj.Value !== Value
+            )
+        )
+    }
+
     return (
         <div>
             <div
                 style={{
                     border:"1px solid blue",
-                    marginBottom:"25px",
+                    marginBottom:"10px",
                 }}
             >
                 {/* <CommonSelect 
                     options = {DROPDOWN_LIST}
                     value = {""}
                 /> */}
-                {selectedOptions.map(({Label, Value})=>{
-                    return <div>{Label}</div>
+                {selectedOptions.map((obj, index)=>{
+
+                    let {Label, Value} = obj
+                    let modifiedOptions = [ obj, ...availableOptions?.filter(
+                        (obj) => {
+                            return obj.Value; // && obj.Value !== Value
+                        }
+                    )]
+
+                    return (
+                        <div
+                            style={{
+                                marginBottom:"10px",
+                                padding:"10px",
+                                display:"flex",
+                                justifyContent:"center",
+                            }}
+                        >
+                            <CommonSelect 
+                                options = {modifiedOptions}
+                                value = {Value}
+                                onChange = {onDropDownListValuesChange(obj, index)}
+                            />
+                            <Button
+                                onClick={onRemoveDropDown(Value)}
+                            >
+                                <RemoveIcon />
+                            </Button>
+                        </div>
+                    )
                 })}
             </div>
             <div
                 style={{
-                    borderBottom:"25px",
+                    marginBottom:"10px",
                 }}
             >
                 <CommonSelect 
@@ -62,7 +116,7 @@ const DrawerDropDowns = () => {
             </div>
             <div
                 style={{
-                    borderBottom:"25px",
+                    marginBottom:"10px",
                 }}
             >
                 <Button
