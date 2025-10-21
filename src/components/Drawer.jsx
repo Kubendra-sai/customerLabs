@@ -9,7 +9,9 @@ const Drawer = ({
 
     return <div
         style={{
-            // height:"100%",
+            height:"100%",
+            display:"flex",
+            flexDirection:"column",
         }}
     >
         <DrawerTitle title={DRAWER_TITLE}/>
