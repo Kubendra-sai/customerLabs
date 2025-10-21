@@ -16,6 +16,11 @@ const DrawerBody = ({
     >
         <p>
             {"Enter the Name of the Segment"}
+            <span
+                style={{
+                    color:"red",
+                }}
+            >{"*"}</span>
         </p>
         <div>
             <input 
@@ -31,6 +36,11 @@ const DrawerBody = ({
         </div>
         <p>
             {"to save your segment, you need to add the schemas to build the query"}
+            <span
+                style={{
+                    color:"red",
+                }}
+            >{"*"}</span>
         </p>
         <DrawerDropDowns />
     </div>)
