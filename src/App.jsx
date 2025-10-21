@@ -18,9 +18,14 @@ import {
   SAVE_SEGMENT,
   DRAWER_OPENING_DIRECTION,
  } from './constants';
+import { useDrawerContext } from './context/DrawerContext';
 
 function App() {
-  const [openDrawer, setOpenDrawer] = useState(false) 
+  // const [openDrawer, setOpenDrawer] = useState(false) 
+  const {
+    state:{openDrawer},
+    setState:{setOpenDrawer},
+  } = useDrawerContext()
 
   const toggleDrawer = ( value ) => {
     return () => setOpenDrawer(value)

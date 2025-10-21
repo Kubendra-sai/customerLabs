@@ -15,7 +15,6 @@ const DrawerBody = ({
         }
     } = useDrawerContext() //useDrawerContext() //useContext(DrawerContext)
 
-    console.log(segmentName,"segmentName")
     return (<div
         style={{
             height:"auto",

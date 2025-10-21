@@ -29,13 +29,10 @@ const DrawerDropDowns = () => {
         }
     } = useDrawerContext()
 
-    console.log(selectedOptions,selectedOptionsValue,"selectedOptions",availableOptions)
-
     const onAddSchemaDropDownChange = (obj) => {
         if(selectedOptionsValue?.indexOf(obj.Value) >= 0){
             return
         }
-        console.log(obj,"obj")
         // setSelectedOptions((prev) => {
         //     return [...prev, obj]
         // })
@@ -66,7 +63,6 @@ const DrawerDropDowns = () => {
     }
 
     const onRemoveDropDown = (Value) => () => {
-        console.log(Value,"value")
         setSelectedOptions(
             (prev) => [...prev].filter(
                 (obj) => obj.Value !== Value

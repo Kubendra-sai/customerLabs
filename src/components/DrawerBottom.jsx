@@ -1,8 +1,58 @@
-import { Button } from "@mui/material"
+import { Button, CircularProgress } from "@mui/material"
+import { useDrawerContext } from "../context/DrawerContext";
+import { saveSegmentApi } from "../api";
 
 const DrawerBottom = ({
 
 }) => {
+
+    const {
+        state:{
+            segmentName,
+            selectedOptions,
+            selectedOptionsValue,
+            saveLoading,
+        },
+        setState:{
+            setSegmentName,
+            setSelectedOptions,
+            setAddSchemaOption,
+            setOpenDrawer,
+            setSaveLoading,
+        },
+        values:{
+            availableOptions,
+            addSchemaOption,
+        },
+        callBacks:{
+           resetDrawerStates,  
+        }
+    } = useDrawerContext()
+
+    const enableButton = !!segmentName?.trim()?.length 
+                        && !!selectedOptions?.length
+
+    const saveSegment = async() => {
+        if(!enableButton) return
+        let modifiedOptionsList = selectedOptions?.map(
+            ({Label, Value}) => ({[Value]:Label})
+        )
+        let apiBody =  {
+            "segment_name": segmentName?.trim(),
+            "schema": modifiedOptionsList,
+        }
+
+        setSaveLoading(true)
+        try{
+            let res = await saveSegmentApi(apiBody)
+            resetDrawerStates()
+        }catch(e){
+            console.log(e, "save segement error")
+        }finally{
+           setSaveLoading(false) 
+        }
+        
+    }
 
     return (<div
         style={{
@@ -22,13 +72,17 @@ const DrawerBottom = ({
         }}
     >
         <Button
-            style={{
-                backgroundColor:"#4cb0a4",
+            style={{ 
+                backgroundColor:enableButton?"#4cb0a4":"grey",
                 color:"white",
                 margin:"0px 15px"
             }}
-            onClick={null}
+            onClick={()=>saveSegment()}
+            disabled={!enableButton}
         >
+            {saveLoading &&
+                <CircularProgress size="30px" />
+            }
             {"Save the Segment"}
         </Button>
         <Button
@@ -36,7 +90,7 @@ const DrawerBottom = ({
                 backgroundColor:"white",
                 color:"red",
             }}
-            onClick={null}
+            onClick={()=>setOpenDrawer(false)}
         >
             {"cancel"}
         </Button>

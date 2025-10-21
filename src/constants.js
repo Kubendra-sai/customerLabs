@@ -14,3 +14,5 @@ export const DROPDOWN_LIST =
 ]
 
 // export const PLACEHOLDER_OBJECT = {Label: 'Add Schema to segment', Value: '',}
+
+export const SAVE_SEGMENT_URL = "https://cors-anywhere.herokuapp.com/https://webhook.site/c5306b85-dede-4dac-867c-82cd61f4eea3"
